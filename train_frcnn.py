@@ -22,6 +22,14 @@ import keras_frcnn.roi_helpers as roi_helpers
 from keras.utils import generic_utils
 from keras.callbacks import TensorBoard
 
+if K.backend() == u'tensorflow':
+    # Configure TF
+    from keras.backend.tensorflow_backend import set_session 
+    config_tf = tf.ConfigProto() 
+    config_tf.gpu_options.allow_growth = True
+    config_tf.gpu_options.visible_device_list = "0" #only the gpu 0 is allowed
+    # config_tf.gpu_options.per_process_gpu_memory_fraction = 0.5
+    set_session(tf.Session(config=config_tf))
 
 # tensorboard 로그 작성 함수
 def write_log(callback, names, logs, batch_no):
